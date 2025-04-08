@@ -1,5 +1,6 @@
 package br.edu.ifmg.produto.resources.exceptions;
 
+import br.edu.ifmg.produto.services.exceptions.DataBaseException;
 import br.edu.ifmg.produto.services.exceptions.ResourceNotFound;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,25 @@ public class ResourceExceptionListener {
         error.setStatus(status.value());
         error.setMessage(ex.getMessage());
         error.setError("Resource not found");
+        error.setTimestamp(Instant.now());
+
+        error.setPath(request.getRequestURI());
+
+        return ResponseEntity.status(status).body(error);
+
+    }
+
+
+    @ExceptionHandler(DataBaseException.class)
+    public ResponseEntity<StandartError> databaseException(DataBaseException ex, HttpServletRequest request) {
+
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+
+        StandartError error = new StandartError();
+
+        error.setStatus(status.value());
+        error.setMessage(ex.getMessage());
+        error.setError("DataBase  ERROR");
         error.setTimestamp(Instant.now());
 
         error.setPath(request.getRequestURI());
