@@ -6,6 +6,7 @@ import br.edu.ifmg.produto.entities.Category;
 import br.edu.ifmg.produto.entities.Product;
 import br.edu.ifmg.produto.repository.CategoryRepository;
 import br.edu.ifmg.produto.repository.ProductRepository;
+import br.edu.ifmg.produto.resources.ProductResource;
 import br.edu.ifmg.produto.services.exceptions.DataBaseException;
 import br.edu.ifmg.produto.services.exceptions.ResourceNotFound;
 import jakarta.persistence.EntityNotFoundException;
@@ -13,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,10 +31,14 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAll(Pageable pageable) {
-
         Page<Product> list = productRepository.findAll(pageable);
-
-        return list.map(c -> new ProductDTO(c));
+        System.out.println("Service retornou: " + list.getNumberOfElements());
+        return list.map(product -> new ProductDTO(product)
+                // HATEOAS:
+                // cria um link para o metOdo find all
+                .add(linkTo(methodOn(ProductResource.class).findAll(null)).withSelfRel())
+                .add(linkTo(methodOn(ProductResource.class).findById(product.getId())).withRel("Get a product"))
+        );
     }
 
 
@@ -41,7 +48,13 @@ public class ProductService {
 
         Product product =  obj.orElseThrow(() -> new ResourceNotFound("Product not found! ->" + id));
 
-        return new ProductDTO(product);
+        return new ProductDTO(product)
+                //.add(linkTo().withSelfRel())
+                //.add(linkTo().withRel("All products"))
+                //.add(linkTo().withRel("Update product"))
+                //.add(linkTo().withRel("Delete Product"))
+                ;
+    
     }
 
 
