@@ -1,11 +1,9 @@
 package br.edu.ifmg.produto.entities;
 
-import br.edu.ifmg.produto.dtos.CategoryDTO;
 import jakarta.persistence.*;
 
 import java.time.Instant;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -19,11 +17,16 @@ public class Product {
     private Long id;
 
     private String name;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
+
     private Double price;
+
     private String imageUrl;
 
     private Instant createdAt;
+
     private Instant updatedAt;
 
     // Relacionamento N para N, diferenes produtos pode ser da mesma categoria.
@@ -36,7 +39,6 @@ public class Product {
     private Set<Category> categories = new HashSet<>();
 
     public Product() {}
-
 
     public Product(Long id, String name, String description, Double price, String imageUrl) {
         this.id = id;
@@ -54,6 +56,7 @@ public class Product {
         this.imageUrl = entity.getImageUrl();
         this.createdAt = Instant.now();
         this.updatedAt = Instant.now();
+        this.categories = entity.getCategories();
     }
 
     public Product(Product product, Set<Category> categories) {
@@ -61,71 +64,64 @@ public class Product {
         this.categories = categories;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getName() {
-        return name;
+    public Long getId() {
+        return id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Double getPrice() {
-        return price;
+    public String getDescription() {
+        return description;
     }
 
-    public Instant getCreatedAt() {
-        return createdAt;
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+    public Double getPrice() {
+        return price;
     }
 
     @PrePersist
     public void prePersist() {
         this.createdAt = Instant.now();
     }
-
-    public Instant getUpdatedAt() {
-        return updatedAt;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = Instant.now();
     }
-
-    public void setPrice(Double price) {
-        this.price = price;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
+    public Instant getUpdatedAt() {
+        return updatedAt;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
-    public Set<Category> getCategories() {
-        return categories;
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public void setCategories(Set<Category> categories) {
         this.categories = categories;
     }
+    public Set<Category> getCategories() {
+        return categories;
+    }
+
 
     // Identificar objeto pelo ID (Chave primária)
     @Override

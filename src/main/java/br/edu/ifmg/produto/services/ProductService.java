@@ -31,9 +31,8 @@ public class ProductService {
 
     @Transactional(readOnly = true)
     public Page<ProductDTO> findAll(Pageable pageable) {
-
         Page<Product> list = productRepository.findAll(pageable);
-
+        System.out.println("Service retornou: " + list.getNumberOfElements());
         return list.map(product -> new ProductDTO(product)
                 // HATEOAS:
                 // cria um link para o metOdo find all
@@ -49,13 +48,11 @@ public class ProductService {
 
         Product product =  obj.orElseThrow(() -> new ResourceNotFound("Product not found! ->" + id));
 
-
-
         return new ProductDTO(product)
-                .add(linkTo().withSelfRel())
-                .add(linkTo().withRel("All products"))
-                .add(linkTo().withRel("Update product"))
-                .add(linkTo().withRel("Delete Product"))
+                //.add(linkTo().withSelfRel())
+                //.add(linkTo().withRel("All products"))
+                //.add(linkTo().withRel("Update product"))
+                //.add(linkTo().withRel("Delete Product"))
                 ;
     
     }

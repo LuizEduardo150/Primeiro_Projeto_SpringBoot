@@ -30,6 +30,14 @@ public class ProductResource {
     public ResponseEntity<Page<ProductDTO>> findAll(Pageable pageable) {
 
         Page<ProductDTO> products = productService.findAll(pageable);
+        System.out.println("Resource retornou: " + products.getNumberOfElements());
+        int a = 0;
+        for (ProductDTO entity : products) {
+            a ++;
+            System.out.println(a);
+            System.out.println(entity);
+        }
+        System.out.print("Fim do teste");
 
         return ResponseEntity.ok().body(products);
     }

@@ -56,53 +56,48 @@ public class ProductDTO extends RepresentationModel<ProductDTO> {
         categories.forEach(c -> this.categories.add(new CategoryDTO(c)));
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public void setId(Long id) {
         this.id = id;
     }
-
-    public String getName() {
-        return name;
+    public Long getId() {
+        return id;
     }
 
     public void setName(String name) {
         this.name = name;
     }
-
-    public String getDescription() {
-        return description;
+    public String getName() {
+        return name;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Double getPrice() {
-        return price;
-    }
-
-    public Set<CategoryDTO> getCategories() {
-        return categories;
-    }
-
-    public void setCategories(Set<CategoryDTO> categories) {
-        this.categories = categories;
+    public String getDescription() {
+        return description;
     }
 
     public void setPrice(Double price) {
         this.price = price;
     }
+    public Double getPrice() {
+        return price;
+    }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public void setCategories(Set<CategoryDTO> categories) {
+        this.categories = categories;
+    }
+    public Set<CategoryDTO> getCategories() {
+        return categories;
     }
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
 
     // Identificar objeto pelo ID (Chave primária)
     @Override
