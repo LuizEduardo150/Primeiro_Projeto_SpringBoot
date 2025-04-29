@@ -42,10 +42,10 @@ public class ProductResource {
         return ResponseEntity.ok().body(products);
     }
 
-    @GetMapping(value=  "/{id}", produces = "application/json")
-    @Operation(description = "Get a product", summary = "Delete product", responses = {
+    @GetMapping(value = "/{id}", produces = "application/json")
+    @Operation(description = "Get a product", summary = "Get product", responses = {
             @ApiResponse(description = "ok", responseCode = "201"),
-            @ApiResponse(description = "Not Found", responseCode = "404"),
+            @ApiResponse(description = "Not Found", responseCode = "404")
     })
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
 
@@ -77,7 +77,7 @@ public class ProductResource {
             @ApiResponse(description = "Bad Request", responseCode = "400"),
             @ApiResponse(description = "unauthorized", responseCode = "401"),
             @ApiResponse(description = "Forbbiden", responseCode = "403"),
-            @ApiResponse(description = "Not Found", responseCode = "404"),
+            @ApiResponse(description = "Not Found", responseCode = "404")
     })
     public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto) {
         dto = productService.update(id, dto);
