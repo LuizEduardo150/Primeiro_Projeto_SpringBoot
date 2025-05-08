@@ -46,11 +46,6 @@ public class ProductRepositoryTest {
         Assertions.assertNotEquals(0, obj.get().getId());
         Assertions.assertEquals(26, obj.get().getId());
 
-
-
-
-
-
     }
 
     
