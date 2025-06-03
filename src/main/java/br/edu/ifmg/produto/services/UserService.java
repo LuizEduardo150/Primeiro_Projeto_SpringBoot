@@ -48,7 +48,7 @@ public class UserService implements UserDetailsService {
         Page<User> list = repository.findAll(pageable);
         // 'list' tem uma lista de 'User'.
         // O map() vai transformar em uma lista de 'UserDTO', que é o tipo que deve ser retornado
-        return list.map(u -> new UserDTO(u));
+        return list.map(u ->  new UserDTO(u));
     }
 
     @Transactional(readOnly = true)

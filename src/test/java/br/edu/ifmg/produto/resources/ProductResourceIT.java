@@ -3,6 +3,7 @@ package br.edu.ifmg.produto.resources;
 // classe para teste de integração
 
 import br.edu.ifmg.produto.util.Factory;
+import br.edu.ifmg.produto.util.TokenUtil;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,13 +34,23 @@ public class ProductResourceIT {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private TokenUtil tokenUtil;
+    private String userName;
+    private String password;
+    private String token;
+
     private Long existingId;
     private Long nonExistingId;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws Exception{
         existingId = 1L;
         nonExistingId = 2000L;
+
+        userName = "maria@gmail.com";
+        password = "123456";
+        token = tokenUtil.obtainAccessToken(mockMvc, userName, password);
     }
 
     @Test

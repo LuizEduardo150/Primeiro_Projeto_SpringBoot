@@ -42,6 +42,26 @@ public class ProductResource {
         return ResponseEntity.ok().body(products);
     }
 
+    @GetMapping(value = "page", produces = "application/json")
+    public ResponseEntity<Page<ProductDTO>> findAllPaged(   Pageable pageable, @RequestParam(value="categoryId", defaultValue = "0") String categoryId,
+                                                         @RequestParam(value = "name", defaultValue = "")String name
+    )
+    
+    {
+
+        Page<ProductDTO> products = productService.findAll(pageable);
+        System.out.println("Resource retornou: " + products.getNumberOfElements());
+        int a = 0;
+        for (ProductDTO entity : products) {
+            a ++;
+            System.out.println(a);
+            System.out.println(entity);
+        }
+        System.out.print("Fim do teste");
+
+        return ResponseEntity.ok().body(products);
+    }
+
     @GetMapping(value = "/{id}", produces = "application/json")
     @Operation(description = "Get a product", summary = "Get product", responses = {
             @ApiResponse(description = "ok", responseCode = "201"),
