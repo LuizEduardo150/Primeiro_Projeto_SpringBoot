@@ -43,7 +43,10 @@ public class ProductService {
             categoriesId = Arrays.stream(categoryId.split(",")).map(id -> Long.parseLong(id)).toList();
 
 
-        Page<ProductProjection> page = productRepository.searchProducts(categoriesId, name, pageable);
+        Page<ProductProjection> page = categoriesId != null ?
+                productRepository.searchProductsWithCategories(categoriesId, name, pageable)
+        :
+                productRepository.searchProductsWithOutCategories(name, pageable);
 
         List<ProductListDTO> dtos = page.stream().map(p -> new ProductListDTO(p)).toList();
 

@@ -1,10 +1,8 @@
 package br.edu.ifmg.produto.projections;
 
 public interface ProductProjection {
-
-    public Long getId();
-    public String getName();
-    public String getImageUrl();
-    public Double getPrice();
-
+    Long getId();
+    String getName();
+    String getImageUrl();
+    Double getPrice();
 }

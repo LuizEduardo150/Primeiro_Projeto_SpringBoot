@@ -8,6 +8,7 @@ import br.edu.ifmg.produto.entities.Product;
 import br.edu.ifmg.produto.entities.Role;
 import br.edu.ifmg.produto.entities.User;
 import br.edu.ifmg.produto.projections.UserDetailsProjection;
+import br.edu.ifmg.produto.repository.CategoryRepository;
 import br.edu.ifmg.produto.repository.RoleRepository;
 import br.edu.ifmg.produto.repository.UserRepository;
 import br.edu.ifmg.produto.resources.ProductResource;
@@ -42,6 +43,7 @@ public class UserService implements UserDetailsService {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
 
     @Transactional(readOnly = true)
     public Page<UserDTO> findAll(Pageable pageable) {
@@ -134,5 +136,22 @@ public class UserService implements UserDetailsService {
 
         return user;
 
+    }
+
+    public UserDTO signup(UserInsertDTO dto) {
+        User entity = new User();
+        copyDtoToEntity(dto, entity);
+
+        Role role = roleRepository.findByAuthority("ROLE_OPERATOR");
+        entity.getRoles().clear();
+        entity.getRoles().add(role);
+
+
+        entity.getRoles().add();
+
+        // "Criptografa" a senha:
+        entity.setPassword(passwordEncoder.encode(dto.getPassword()));
+        User novo = repository.save(entity);
+        return new UserDTO(novo);
     }
 }
