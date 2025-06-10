@@ -47,12 +47,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
                 ) as tb_result
             """
     )
-    public Page<ProductProjection> searchProductsWithoutCategories(String name, Pageable pageable);
+    public Page<ProductProjection> searchProductsWithOutCategories(String name, Pageable pageable);
 
 
-    public void findAllPaged() {
-
-    }
+    public void findAllPaged();
 
 
 }

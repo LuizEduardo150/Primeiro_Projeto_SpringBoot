@@ -64,7 +64,7 @@ public class UserService implements UserDetailsService {
     public UserDTO insert(UserInsertDTO dto) {
 
         User entity = new User();
-        copyDtoToEntity(dto, entity);
+        copyInsertDtoToEntity(dto, entity);
         // "Criptografa" a senha:
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
         User novo = repository.save(entity);
@@ -98,7 +98,7 @@ public class UserService implements UserDetailsService {
         try {
             repository.deleteById(id);
         } catch (DataIntegrityViolationException e) {
-            throw new DatabaseException("Integrity violation");
+            throw new DataBaseException("Integrity violation");
         }
     }
 
@@ -109,7 +109,19 @@ public class UserService implements UserDetailsService {
         entity.setEmail(dto.getEmail());
 
         entity.getRoles().clear();
-        for (RoleDTO role : dto.getRoles()) {
+        for (Role role : dto.getRoles()) {
+            Role r = roleRepository.getReferenceById(role.getId());
+            entity.getRoles().add(r);
+        }
+    }
+
+    private void copyInsertDtoToEntity(UserInsertDTO dto, User entity) {
+        entity.setFirstName(dto.getFirstName());
+        entity.setLastName(dto.getLastName());
+        entity.setEmail(dto.getEmail());
+
+        entity.getRoles().clear();
+        for (Role role : dto.getRoles()) {
             Role r = roleRepository.getReferenceById(role.getId());
             entity.getRoles().add(r);
         }
@@ -132,22 +144,20 @@ public class UserService implements UserDetailsService {
 
         }
 
-        
-
         return user;
 
     }
 
     public UserDTO signup(UserInsertDTO dto) {
         User entity = new User();
-        copyDtoToEntity(dto, entity);
+        copyInsertDtoToEntity(dto, entity);
 
         Role role = roleRepository.findByAuthority("ROLE_OPERATOR");
         entity.getRoles().clear();
         entity.getRoles().add(role);
 
 
-        entity.getRoles().add();
+        entity.getRoles().add(role);
 
         // "Criptografa" a senha:
         entity.setPassword(passwordEncoder.encode(dto.getPassword()));
