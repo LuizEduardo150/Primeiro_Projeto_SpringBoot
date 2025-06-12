@@ -36,13 +36,13 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 public class UserService implements UserDetailsService {
 
     @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
     private UserRepository repository;
 
     @Autowired
     private RoleRepository roleRepository;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
 
 
     @Transactional(readOnly = true)
